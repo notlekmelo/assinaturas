@@ -17,12 +17,12 @@ export const gravarAssinatura = (usuario: Usuario, callback: Function) => {
     const assinatura : any = usuario.Assinatura;
     const buffer = Buffer.from(assinatura, 'base64');
 
-    if(!fs.existsSync(path.join(caminhoPrincipal, String(usuario.CodigoUsuario)))) {
-        fs.mkdirSync(path.join(caminhoPrincipal, String(usuario.CodigoUsuario)));
+    if(!fs.existsSync(path.join(caminhoPrincipal, String(usuario.Nome)))) {
+        fs.mkdirSync(path.join(caminhoPrincipal, String(usuario.Nome)));
     }
 
-    fs.writeFileSync(path.join(caminhoPrincipal, String(usuario.CodigoUsuario), `assinatura${String(usuario.CodigoUsuario)}.jpg`), buffer)
-    usuario.CaminhoAssinatura = path.join(caminhoPrincipal, String(usuario.CodigoUsuario), `assinatura${String(usuario.CodigoUsuario)}.jpg`)
+    fs.writeFileSync(path.join(caminhoPrincipal, String(usuario.Nome), `assinatura${String(usuario.Nome)}.jpg`), buffer)
+    usuario.CaminhoAssinatura = path.join(caminhoPrincipal, String(usuario.Nome), `assinatura${String(usuario.Nome)}.jpg`)
     
     const query = "UPDATE Usuarios SET CaminhoAssinatura = ? WHERE CodigoUsuario = ? "
 
@@ -82,7 +82,7 @@ export const buscarDadosUsuarios = (filtros: any, callback: Function) => {
             const caminhoPrincipal = String(process.env.DIRETORIOANEXOS);
             const resultUsuarios: Usuario[] = [];
             const totalItens = rows.length > 0 ? rows[0].RecordsCount : 0;
-            const totalPages = rows.length > 0 ? Math.ceil(rows[0].RecordsCount/filtros.limit) : 0;
+            const totalPages = rows.length > 0 ? Math.ceil(rows[0].RecordsCount/(filtros.limit || rows[0].RecordsCount)) : 0;
                 
             rows.forEach(row => {
 

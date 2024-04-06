@@ -25,6 +25,7 @@ routes.post('/usuarios/gravar-assinatura', (req: Request, res: Response) => {
             }
         }
         else {
+            usuario.Nome = mensagem;
             usuarioService.gravarAssinatura(usuario, (err: Error, caminhoArquivo: string) => {
                 if (err) {
                     res.status(500).json({

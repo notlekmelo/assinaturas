@@ -10,7 +10,7 @@ export const validatorGravarAssinatura = (usuario: Usuario, callback: Function) 
         callback(false, null,'A assinatura do usuário é obrigatória.');
     }
     else {
-        const query = "SELECT CodigoUsuario FROM Usuarios WHERE CodigoUsuario = ?"
+        const query = "SELECT Nome FROM Usuarios WHERE CodigoUsuario = ?"
         dbconnection.query(
             query,
             [usuario.CodigoUsuario],
@@ -24,7 +24,7 @@ export const validatorGravarAssinatura = (usuario: Usuario, callback: Function) 
                     callback(false, null, 'O usuário especificado não foi encontrado');
                 }
                 else                   
-                    callback(true, null);
+                    callback(true, null, rows[0].Nome);
             }
         );
     }
