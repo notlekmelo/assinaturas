@@ -21,8 +21,8 @@ export const gravarAssinatura = (usuario: Usuario, callback: Function) => {
         fs.mkdirSync(path.join(caminhoPrincipal, String(usuario.Nome)));
     }
 
-    fs.writeFileSync(path.join(caminhoPrincipal, String(usuario.Nome), `assinatura${String(usuario.Nome)}.jpg`), buffer)
-    usuario.CaminhoAssinatura = path.join(caminhoPrincipal, String(usuario.Nome), `assinatura${String(usuario.Nome)}.jpg`)
+    fs.writeFileSync(path.join(caminhoPrincipal, String(usuario.Nome), `assinatura${String(usuario.Nome)}.png`), buffer)
+    usuario.CaminhoAssinatura = path.join(caminhoPrincipal, String(usuario.Nome), `assinatura${String(usuario.Nome)}.png`)
     
     const query = "UPDATE Usuarios SET CaminhoAssinatura = ? WHERE CodigoUsuario = ? "
 
@@ -94,7 +94,7 @@ export const buscarDadosUsuarios = (filtros: any, callback: Function) => {
                 };
 
                 if (row.CaminhoAssinatura) {
-                    usuario.Assinatura = fs.readFileSync(path.join(caminhoPrincipal, String(usuario.CodigoUsuario), `assinatura${String(usuario.CodigoUsuario)}.jpg`)).toString('base64');
+                    usuario.Assinatura = fs.readFileSync(row.CaminhoAssinatura).toString('base64');
                 }
 
                 resultUsuarios.push(usuario)
